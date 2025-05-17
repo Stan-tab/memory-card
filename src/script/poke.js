@@ -5,7 +5,7 @@ export default class cards {
 
     offsetChange() {
         const count = +this.url.at(-1);
-        this.url.replace(`offset=${count}`, `offset=${count + 1}`);
+        this.url = this.url.replace(`offset=${count}`, `offset=${count + 10}`);
     }
 
     async getData() {

@@ -1,60 +1,7 @@
 import { useState, useEffect } from 'react'
 import './styles/App.css'
 import cards from "./script/poke.js"
-// const pokemons = new cards();
-
-const oke = [
-    {
-        "name": "bulbasaur",
-        "url": "https://pokeapi.co/api/v2/pokemon/1/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
-    },
-    {
-        "name": "ivysaur",
-        "url": "https://pokeapi.co/api/v2/pokemon/2/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"
-    },
-    {
-        "name": "venusaur",
-        "url": "https://pokeapi.co/api/v2/pokemon/3/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png"
-    },
-    {
-        "name": "charmander",
-        "url": "https://pokeapi.co/api/v2/pokemon/4/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
-    },
-    {
-        "name": "charmeleon",
-        "url": "https://pokeapi.co/api/v2/pokemon/5/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png"
-    },
-    {
-        "name": "charizard",
-        "url": "https://pokeapi.co/api/v2/pokemon/6/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
-    },
-    {
-        "name": "squirtle",
-        "url": "https://pokeapi.co/api/v2/pokemon/7/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png"
-    },
-    {
-        "name": "wartortle",
-        "url": "https://pokeapi.co/api/v2/pokemon/8/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/8.png"
-    },
-    {
-        "name": "blastoise",
-        "url": "https://pokeapi.co/api/v2/pokemon/9/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png"
-    },
-    {
-        "name": "caterpie",
-        "url": "https://pokeapi.co/api/v2/pokemon/10/",
-        "img": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png"
-    }
-]
+const pokemons = new cards();
 
 function reArrange(arr, n) {
     const newArr = [];
@@ -71,8 +18,8 @@ function reArrange(arr, n) {
 }
 
 function RandomPlacer({poke, inpHandler}) {
-  if(!poke) return (<p>Please wait...</p>)
-  const reArranged = reArrange(poke, Math.round((Math.random() * 1000) % 10));
+  if(!poke) return (<p>Please wait...</p>);
+  const reArranged = reArrange(poke, Math.round((Math.random() * 547) % 9));
   return reArranged.map(e => {
           return (<div className='card' key={e.name}>
             <img src={e.img} alt={e.name} onClick={inpHandler} />
@@ -82,27 +29,51 @@ function RandomPlacer({poke, inpHandler}) {
 }
 
 function App() {
-  // const [poke, setPoke] = useState(oke);
+  const [poke, setPoke] = useState(null);
   const [choosen, setChoose] = useState([]);
+  const [isWin, setWin] = useState(false);
+  const [isLost, setLost] = useState(false);
 
-  // useEffect(() => {
-  //   (async function fetcher() {
-  //     await pokemons.getData();
-  //     statePoke(pokemons.data);
-  //   })()
-  // }, [pokemons.url])
+  function Dialog({str}) {
+    return (
+      <div className='end'>
+      <p>{str}</p>
+      <button onClick={() => {
+          pokemons.offsetChange();
+          setWin(false); 
+          setLost(false);
+          setChoose([]);
+          setPoke(null);
+        }}>Restart</button>
+      </div>
+    )
+  }
+
+  useEffect(() => {
+    (async function fetcher() {
+      await pokemons.getData();
+      setPoke(pokemons.data);
+    })()
+  }, [pokemons.url])
 
   function chooseHandle(e) {
-    console.log(choosen)
+    if(choosen.includes(e.target.alt)) setLost(true);
+    if (choosen.length === 9) setWin(true);
     choosen.push(e.target.alt);
     setChoose([...choosen]);
   }
 
+  if (isLost) {
+    return <Dialog str={"Game over!"} />
+  } else if(isWin) {
+    return <Dialog str={"You win!"} />
+  }
+
   return (
     <>
-      <div className='score'></div>
+      <div className='score'>score: {choosen.length}</div>
       <div className='cards'>
-        <RandomPlacer poke={oke} inpHandler={chooseHandle} />
+        <RandomPlacer poke={poke} inpHandler={chooseHandle} />
       </div>
     </>
   )

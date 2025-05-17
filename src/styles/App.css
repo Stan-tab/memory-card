@@ -14,6 +14,7 @@
   position: relative;
   border-radius: 10%;
   outline: grey solid 2px;
+  animation: appear ease-in 1s forwards;
   p {
     color: black;
     text-align: center;
@@ -24,5 +25,33 @@
     left: 50%;
     transform: translate(-50%, -50%);
     -webkit-text-stroke: rgb(235, 246, 255) 0.7px;
+  }
+}
+
+.end{
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  width: fit-content;
+  text-align: center;
+  p {
+    font-size: 4rem;
+    margin: 0;
+    font-weight: bolder;
+  }
+  button {
+    font-size: 2.7rem;
+    margin-top: 10px;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
