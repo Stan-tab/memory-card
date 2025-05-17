@@ -2,6 +2,7 @@
   "name": "memorycard",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://Stan-tab.github.io/memory-card",
   "type": "module",
   "scripts": {
     "dev": "vite",

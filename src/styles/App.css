@@ -14,7 +14,9 @@
   position: relative;
   border-radius: 10%;
   outline: grey solid 2px;
-  animation: appear ease-in 1s forwards;
+  opacity: 1;
+  transition: ease-in 0.5s opacity;
+  /* animation: appear ease-in 1s forwards; */
   p {
     color: black;
     text-align: center;
@@ -47,11 +49,19 @@
   }
 }
 
-@keyframes appear {
+.card.choosen{
+  animation: 0.5s ease-in-out rot both;
+}
+
+.card.hide{
+  opacity: 0;
+}
+
+@keyframes rot {
   from {
-    opacity: 0;
+    transform: rotateY(0deg);
   }
   to {
-    opacity: 1;
+    transform: rotateY(360deg);
   }
 }

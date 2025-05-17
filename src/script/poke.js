@@ -4,7 +4,7 @@ export default class cards {
     }
 
     offsetChange() {
-        const count = +this.url.at(-1);
+        const count = +this.url.substring(50);
         this.url = this.url.replace(`offset=${count}`, `offset=${count + 10}`);
     }
 

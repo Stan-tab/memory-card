@@ -57,10 +57,24 @@ function App() {
   }, [pokemons.url])
 
   function chooseHandle(e) {
-    if(choosen.includes(e.target.alt)) setLost(true);
-    if (choosen.length === 9) setWin(true);
-    choosen.push(e.target.alt);
-    setChoose([...choosen]);
+    setTimeout(() => {
+      e.target.parentNode.classList = "card"
+      if(choosen.includes(e.target.alt)) setLost(true);
+      if (choosen.length === 9) setWin(true);
+      choosen.push(e.target.alt);
+      setChoose([...choosen]);
+    },500)
+
+    const cards = [...document.querySelectorAll(".cards > *")];
+    cards.forEach(el => {
+      if(el.classList != e.target.parentNode.classList){
+        el.classList = "card hide";
+        setTimeout(() => {
+          el.classList = "card";
+        },500)
+      }
+    })
+    e.target.parentNode.classList = "card choosen"
   }
 
   if (isLost) {
